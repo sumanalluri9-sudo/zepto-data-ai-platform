@@ -1,0 +1,8 @@
+Metric,Value
+Best CV F1,0.7434
+OOB Score,0.7848
+Test Accuracy,0.7806
+Test Precision,0.7778
+Test Recall,0.6562
+Test F1,0.7119
+Test ROC AUC,0.7835
