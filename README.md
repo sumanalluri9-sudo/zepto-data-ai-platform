@@ -1,174 +1,158 @@
-\# Zepto Data \& AI Platform
+\## End-to-End Execution
 
 
 
-\## Capstone Project
+\### Module 1 - Data Pipeline
 
 
 
-This repository contains the capstone project for the Certificate Program in Artificial Intelligence and Machine Learning.
+Navigate to the data pipeline module:
 
 
 
-The project demonstrates an end-to-end Data and AI workflow through three modules:
+```powershell
 
-
-
-1\. Data Pipeline
-
-2\. Analytics and Machine Learning
-
-3\. GenAI Policy Support Assistant
-
-
-
-\## Repository Structure
-
-
-
-```text
-
-zepto-data-ai-platform/
-
-├── data\_pipeline/
-
-├── analytics/
-
-├── support\_assistant/
-
-├── .gitignore
-
-└── README.md
+cd data\_pipeline
 
 ```
 
 
 
-\## Module 1: Data Pipeline
+Install the required dependencies:
 
 
 
-The `data\_pipeline` module implements a complete data engineering workflow using data scraped from Books to Scrape.
+```powershell
 
+pip install -r requirements.txt
 
+```
 
-It includes:
 
 
+Run the complete scraping, cleaning, currency conversion, database creation, SQL querying, and pandas comparison pipeline:
 
-\- Web scraping using Requests and BeautifulSoup
 
-\- Data cleaning and type conversion
 
-\- GBP to INR conversion using the fixed project rate of 1 GBP = 105.50 INR
+```powershell
 
-\- Normalized SQLite database with primary and foreign key relationships
+python scrape\_books.py
 
-\- SQL queries using SELECT, WHERE, ORDER BY, LIMIT, DISTINCT, IN/BETWEEN, and JOIN
+```
 
-\- Query results loaded into pandas using `pd.read\_sql()`
 
-\- SQL JOIN results reproduced using `pd.merge()`
 
-\- Generated query and analysis outputs
+The pipeline scrapes at least 60 books, cleans the dataset, converts GBP prices to INR using the fixed project rate of 1 GBP = 105.50 INR, creates the normalized SQLite database, executes the required SQL queries, and saves the generated outputs.
 
 
 
-Detailed setup and execution instructions are available in `data\_pipeline/README.md`.
+\### Module 2 - Analytics and Machine Learning
 
 
 
-\## Module 2: Analytics and Machine Learning
+Navigate to the analytics module:
 
 
 
-The `analytics` module performs exploratory data analysis and machine learning using the Titanic dataset.
+```powershell
 
+cd analytics
 
+```
 
-It includes:
 
 
+Install the required dependencies:
 
-\- Data profiling
 
-\- Missing-value analysis
 
-\- Data cleaning
+```powershell
 
-\- Outlier handling
+pip install -r requirements.txt
 
-\- Exploratory data analysis
+```
 
-\- Data visualization
 
-\- Feature engineering
 
-\- Logistic Regression
+Start Jupyter Notebook:
 
-\- Decision Tree
 
-\- Random Forest
 
-\- Model evaluation using Accuracy, Precision, Recall, F1 Score, and ROC-AUC
+```powershell
 
-\- Class imbalance handling
+jupyter notebook
 
-\- SMOTE
+```
 
-\- Random Forest hyperparameter tuning
 
-\- Regression analysis
 
-\- Model persistence using Joblib
+Run the notebooks in this order:
 
 
 
-Detailed setup and execution instructions are available in `analytics/README.md`.
+1\. `01\_eda.ipynb`
 
+2\. `02\_modeling.ipynb`
 
 
-\## Module 3: GenAI Policy Support Assistant
 
+Run all cells from top to bottom so the exploratory analysis, preprocessing, feature engineering, classification models, evaluation, imbalance handling, hyperparameter tuning, regression analysis, and model persistence steps are reproduced.
 
 
-The `support\_assistant` module implements a Zepto policy support assistant using local retrieval and a LangGraph workflow.
 
+\### Module 3 - GenAI Policy Support Assistant
 
 
-It includes:
 
+Navigate to the support assistant:
 
 
-\- 8 Zepto policy documents
 
-\- Local embeddings using `all-MiniLM-L6-v2`
+```powershell
 
-\- ChromaDB vector storage
+cd support\_assistant
 
-\- Semantic document retrieval
+```
 
-\- LangGraph workflow
 
-\- Intent classification
 
-\- Conditional routing
+Install dependencies:
 
-\- Policy retrieval and answer generation
 
-\- Direct-answer route for non-policy questions
 
-\- Structured prompt engineering
+```powershell
 
-\- Pydantic response validation
+pip install -r requirements.txt
 
-\- FastAPI `/ask` endpoint
+```
 
-\- Dockerfile for containerization
 
 
+Create or refresh the ChromaDB vector database:
 
-The default graded configuration uses:
+
+
+```powershell
+
+python ingest.py
+
+```
+
+
+
+Start the FastAPI application:
+
+
+
+```powershell
+
+python -m uvicorn main:app --reload
+
+```
+
+
+
+The default configuration uses:
 
 
 
@@ -180,91 +164,105 @@ MOCK\_LLM=1
 
 
 
-Mock mode does not require an external LLM API key. Policy questions still perform real ChromaDB retrieval.
+This mode requires no external LLM API key while still performing real semantic retrieval against the local ChromaDB policy collection.
 
 
 
-Detailed setup, API usage, and architecture information are available in `support\_assistant/README.md`.
-
-
-
-\## Technologies Used
-
-
-
-\- Python
-
-\- pandas
-
-\- NumPy
-
-\- Requests
-
-\- BeautifulSoup
-
-\- SQLite
-
-\- scikit-learn
-
-\- Matplotlib
-
-\- Seaborn
-
-\- imbalanced-learn
-
-\- Joblib
-
-\- LangGraph
-
-\- ChromaDB
-
-\- Sentence Transformers
-
-\- FastAPI
-
-\- Pydantic
-
-\- Uvicorn
-
-\- Docker
-
-
-
-\## Running the Project
-
-
-
-Each module contains its own README and dependency information.
-
-
-
-Follow the instructions inside the corresponding module:
+The API is available at:
 
 
 
 ```text
 
-data\_pipeline/README.md
-
-analytics/README.md
-
-support\_assistant/README.md
+http://127.0.0.1:8000
 
 ```
 
 
 
-\## Git Workflow
+The main endpoint is:
 
 
 
-The project uses Git for version control.
+```text
+
+POST /ask
+
+```
 
 
 
-A feature branch was created for development, multiple commits were made during development, and the completed work was merged back into the `main` branch.
+Example request:
 
 
 
-The repository preserves the commit history required for the capstone submission.
+```json
+
+{
+
+&#x20; "query": "What is Zepto gift card validity?"
+
+}
+
+```
+
+
+
+\### Docker
+
+
+
+A Dockerfile is provided in `support\_assistant`.
+
+
+
+Build the container with:
+
+
+
+```powershell
+
+docker build -t zepto-support-assistant .
+
+```
+
+
+
+Run it with:
+
+
+
+```powershell
+
+docker run -p 7860:7860 zepto-support-assistant
+
+```
+
+
+
+\## Design Decisions
+
+
+
+\### Data Pipeline
+
+
+
+The pipeline uses Books to Scrape as the source and performs automated scraping rather than manual data collection. Data is cleaned into appropriate numeric and boolean types. GBP prices are converted using the required fixed baseline rate of 1 GBP = 105.50 INR. Categories and books are stored separately in SQLite to maintain a normalized primary-key/foreign-key structure.
+
+
+
+\### Analytics
+
+
+
+The analytics workflow separates exploratory analysis from modeling using two notebooks. The EDA notebook focuses on understanding, cleaning, and visualizing the dataset. The modeling notebook performs feature preparation, classification, evaluation, class-imbalance handling, tuning, regression analysis, and model persistence.
+
+
+
+\### Support Assistant
+
+
+
+The support assistant uses local Sentence Transformer embeddings and ChromaDB so retrieval does not depend on a paid embedding service. LangGraph controls intent classification and conditional routing. Policy questions use retrieved Zepto policy context, while other questions follow a direct-answer route. Deterministic mock mode is the default so the graded baseline runs without an external LLM API key.
 
